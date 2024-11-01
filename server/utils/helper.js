@@ -1,4 +1,4 @@
-const oracle = require("../config/dbOracle");
+const oracle = require("../config/oracle");
 var jwt = require("jsonwebtoken");
 
 const getStaffPassword = async (staff_id) => {

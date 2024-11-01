@@ -1,0 +1,43 @@
+.cust input{
+    @apply text-muted-foreground;
+}
+.cust label{
+    @apply min-w-[110px] font-normal text-[13px] text-slate-700;
+}
+
+.table{
+    @apply w-full text-[13px] mt-2 overflow-scroll border-collapse;
+}
+.table thead{
+    @apply bg-slate-100 dark:bg-slate-900;
+}
+.table th{
+    @apply font-normal text-slate-500;
+}
+.table, .table th, .table td{
+    @apply border p-2 text-left;
+}
+.table tbody tr{
+    @apply cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
+}
+.table caption{
+    @apply mt-2 text-slate-500 uppercase text-left font-normal text-[12px] caption-bottom;
+}
+
+.table .narrow, .table .narrow th, .table .narrow td{
+    @apply border !p-1 text-left;
+}
+
+.receipt table{
+    @apply w-full text-[13px] mt-2 overflow-scroll border-collapse;
+}
+.receipt table, .receipt table th, .receipt table td{
+    @apply border p-2 text-left;
+}
+
+.table-muted{
+    @apply w-full text-[13px] mt-2 overflow-scroll border-collapse;
+}
+.table-muted table, .table-muted table th, .table-muted table td{
+    @apply border p-2 text-left;
+}

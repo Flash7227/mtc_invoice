@@ -38,13 +38,14 @@ app.get('/', (req, res) => {
 });
 
 const Users = require("./routes/Users");
+const Cust = require("./routes/Cust");
 // const Invoices = require("./routes/invoices");
-// const Cust = require("./routes/cust");
+
 // const Subs = require("./routes/subs")
 
 app.use("/users", Users);
+app.use("/customer", Cust);
 // app.use("/invoices", Invoices);
-// app.use("/cust", Cust);
 // app.use("/subs", Subs);
 
 //ws section
