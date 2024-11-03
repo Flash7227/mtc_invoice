@@ -1,9 +1,6 @@
+import { redirect } from 'next/navigation'
 const Page = () => {
-    return (
-        <div>
-            <h5>Хянах самбар</h5>
-        </div>
-    );
+    redirect('/home');
 }
 
 export default Page;

@@ -1,16 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatDate } from "@/utils/helper";
 import Paginator from "@/components/paginator";
 import { ChevronsUpDown, ChevronsDownUp } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 const Subs = (props: any) => {
   const [expanded, setExpanded] = useState([""]);
@@ -66,27 +57,28 @@ const Subs = (props: any) => {
   }
   return (
     <div className="overflow-x-auto">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[60px]">№</TableHead>
-            <TableHead>Бүтээгдэхүүн №</TableHead>
-            <TableHead>Гэрээ №</TableHead>
-            <TableHead>Үйлчилгээ №</TableHead>
-            <TableHead>Үндсэн тариф</TableHead>
-            <TableHead>Төлбөрийн данс</TableHead>
-            <TableHead>Төрөл</TableHead>
-            <TableHead>Төлөв</TableHead>
-            <TableHead>OCS Status</TableHead>
-            <TableHead>Үүс.Огноо</TableHead>
-            <TableHead>Шинэч.Огноо</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+      <table className="table">
+        <thead>
+          <tr>
+            <th className="w-[20px]"></th>
+            <th>Бүтээгдэхүүн №</th>
+            <th>Гэрээ №</th>
+            <th>Үйлчилгээ №</th>
+            <th>Үйлчилгээ</th>
+            <th>Үндсэн тариф</th>
+            <th>Төлбөрийн данс</th>
+            <th>Төрөл</th>
+            <th>Төлөв</th>
+            <th>OCS Status</th>
+            <th>Үүс.Огноо</th>
+            <th>Шинэч.Огноо</th>
+          </tr>
+        </thead>
+        <tbody>
           {props.data ? (
             props.data["objects"].length > 0 ? (
               props.data["objects"].map((d: any, index: number) => (
-                <TableRow
+                <tr
                   key={index}
                   className={
                     d["upper"] &&
@@ -94,11 +86,8 @@ const Subs = (props: any) => {
                       " transition-transform"
                   }
                 >
-                  <TableCell className="text-muted-foreground text-xs">
-                    {!d["upper"] &&
-                      (props.data["pagination"]["page"] - 1) * 10 + 1 + index}
-                  </TableCell>
-                  <TableCell>
+                  <td className="text-muted-foreground text-xs">{!d["upper"] && (props.data['pagination']['page'] - 1) * 10 + 1 +index}</td>
+                  <td>
                     {d["cnvgId"] && (
                       <span
                         onClick={(e) => toggleExpanded(e, d["cnvgId"])}
@@ -112,46 +101,35 @@ const Subs = (props: any) => {
                       </span>
                     )}{" "}
                     {d["subs"]["subsId"]}
-                  </TableCell>
-                  <TableCell>{d["subs"]["custId"]}</TableCell>
-                  <TableCell>{d["subs"]["userId"]}</TableCell>
-                  <TableCell>{d["subs"]["subsId"]}</TableCell>
-                  <TableCell className="w-[200px]">
-                    {d["subs"]["prodName"]}
-                  </TableCell>
-                  <TableCell>{d["subs"]["aceno"]}</TableCell>
-                  <TableCell>{billTypeName(d["subs"]["billType"])}</TableCell>
-                  <TableCell>{statusName(d["subs"]["status"])}</TableCell>
-                  <TableCell className="uppercase">
-                    {ocsStatusName(d["ocsState"])}
-                  </TableCell>
-                  <TableCell>
-                    {formatDate(d["subs"]["createdAt"], true)}
-                  </TableCell>
-                  <TableCell>
-                    {formatDate(d["subs"]["updatedAt"], true)}
-                  </TableCell>
-                </TableRow>
+                  </td>
+                  <td>{d["subs"]["custId"]}</td>
+                  <td>{d["subs"]["userId"]}</td>
+                  <td>{d["subs"]["subsId"]}</td>
+                  <td className="w-[200px]">{d["subs"]["prodName"]}</td>
+                  <td>{d["subs"]["aceno"]}</td>
+                  <td>{billTypeName(d["subs"]["billType"])}</td>
+                  <td>{statusName(d["subs"]["status"])}</td>
+                  <td className="uppercase">{ocsStatusName(d["ocsState"])}</td>
+                  <td>{formatDate(d["subs"]["createdAt"], true)}</td>
+                  <td>{formatDate(d["subs"]["updatedAt"], true)}</td>
+                </tr>
               ))
             ) : (
-              <TableRow>
+              <tr>
                 <td colSpan={12} className="!text-center text-muted-foreground">
                   Мэдээлэл байхгүй
                 </td>
-              </TableRow>
+              </tr>
             )
           ) : (
-            <TableRow>
-              <TableCell
-                colSpan={12}
-                className="!text-center text-muted-foreground"
-              >
+            <tr>
+              <td colSpan={12} className="!text-center text-muted-foreground">
                 Мэдээлэл байхгүй
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           )}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
       <div className="flex justify-end items-center py-2 text-sm">
         {props.data && (
           <Paginator

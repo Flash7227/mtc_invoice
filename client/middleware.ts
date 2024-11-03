@@ -1,12 +1,12 @@
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const name = request.cookies.get('INVOICE_NAME')?.value;
+  const name = request.cookies.get('INVOICE_USERNAME')?.value;
   const token = request.cookies.get('INVOICE_TOKEN')?.value;
   // console.log(name, token);
     if (!request.nextUrl.pathname.startsWith('/login')) {
       if(!name || !token){
-        request.cookies.delete('INVOICE_NAME');
+        request.cookies.delete('INVOICE_USERNAME');
         request.cookies.delete('INVOICE_TOKEN');
         return Response.redirect(new URL('/login', request.url))
       }

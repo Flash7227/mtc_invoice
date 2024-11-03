@@ -18,14 +18,16 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { deleteCookie } from "cookies-next";
+import { useRouter } from 'next/navigation'
 
 
 const formSchema = z.object({
-  ttns_username: z.string(),
+  bill_username: z.string(),
   password: z.string(),
 });
 
 const FormData = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
@@ -35,6 +37,7 @@ const FormData = () => {
       deleteCookie("INVOICE_NAME");
       deleteCookie("INVOICE_MENU");
       deleteCookie("INVOICE_AREA");
+      deleteCookie("INVOICE_DESC");
     }
     refreshCookie();
   },[]);
@@ -48,14 +51,14 @@ const FormData = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ttns_username: "",
+      bill_username: "",
       password: "",
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/users/login", {
+    const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
@@ -67,6 +70,7 @@ const FormData = () => {
     });
     if (json.success) {
       location.href = "/";
+      // router.push('/');
     }
   }
   return (
@@ -74,7 +78,7 @@ const FormData = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="ttns_username"
+          name="bill_username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>ТТНС нэр</FormLabel>

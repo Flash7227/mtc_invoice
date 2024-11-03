@@ -37,14 +37,16 @@ app.get('/', (req, res) => {
   res.send('ENDPOINT IS ON.')
 });
 
-const Users = require("./routes/Users");
+const Auth = require("./routes/Auth");
 const Cust = require("./routes/Cust");
+const Base = require("./routes/Base");
 // const Invoices = require("./routes/invoices");
 
 // const Subs = require("./routes/subs")
 
-app.use("/users", Users);
-app.use("/customer", Cust);
+app.use("/auth", Auth);
+app.use("/cust", Cust);
+app.use("/base", Base);
 // app.use("/invoices", Invoices);
 // app.use("/subs", Subs);
 

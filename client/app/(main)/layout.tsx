@@ -1,20 +1,25 @@
-import Navbar from "@/components/navbar";
+import TopHeader from "@/components/top-header";
 import Footer from "@/components/footer";
+import Sidebar from "@/components/sidebar";
+
 
 const Layout = ({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) => {
-    return (
-        <div className="min-h-screen flex flex-col bg-slate-50">
-            <Navbar/>
-            <main className="grow max-w-screen-2xl container mx-auto p-2">
-              {children}
-            </main>
-            <Footer/>
-        </div>
-    );
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) => {
+  return (
+    <div className="min-h-screen flex flex-row bg-slate-50">
+      <Sidebar />
+      <div className="w-full flex flex-col">
+        <TopHeader />
+        <main className="grow p-4">
+          {children}
+        </main>
+        <Footer />
+      </div>
+    </div>
+  );
 }
 
 export default Layout;

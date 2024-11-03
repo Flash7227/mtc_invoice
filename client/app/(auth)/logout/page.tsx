@@ -7,7 +7,7 @@ export default function Logout() {
 
   useEffect(() => {
     const logout = async () => {
-      await fetch('/api/users/logout', {
+      await fetch('/api/auth/logout', {
         method: 'GET'
       });
 

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const auth = require("../middleware/auth");
-const Info = require('../controllers/Info');
+const Cust = require('../controllers/Cust');
 
-router.get('/', auth.check, Info.Cust);
-router.get('/info', Info.Info);
-router.get('/subs', auth.check, Info.Subs);
+router.get('/',  Cust.Cust);
+router.get('/info', Cust.CustInfo);
+router.get('/subs', Cust.Subs);
+router.get('/products', Cust.Products);
 
 module.exports = router;

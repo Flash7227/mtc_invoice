@@ -22,7 +22,7 @@ const defaultState = {
   address: "",
 };
 
-const Info = (props: any) => {
+const Cust = (props: any) => {
   const [data, setData] = useState(defaultState);
   useEffect(() => {
     if (props.data) {
@@ -131,4 +131,4 @@ const Info = (props: any) => {
   );
 };
 
-export default Info;
+export default Cust;
