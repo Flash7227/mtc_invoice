@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import SearchBar from "./searchBar";
 import { Cust, Subs, CustPick } from "./_custInfo";
 import Invoices from "./invoices";
-import Create from "./create";
+import NewInvoice from "./newInvoice";
 
 const Page = () => {
     const { toast } = useToast();
@@ -25,7 +25,7 @@ const Page = () => {
     const [cust, setCust] = useState<any>();
     const [subs, setSubs] = useState();
     const [inv, setInv] = useState<any>();
-    const [createState, setCreateState] = useState();
+    const [newInvoiceState, setNewInvoiceState] = useState();
     const [detailState, setDetailState] = useState();
     const [deleteState, setDeleteState] = useState();
     const [paymentState, setPaymentState] = useState();
@@ -114,8 +114,8 @@ const Page = () => {
     };
     const handleAction = async (action: string) => {
         if (cust) {
-            if (action == "create") {
-                handleCreate(cust['custId']);
+            if (action == "newInvoice") {
+                setNewInvoiceState(cust['custId']);
             }
         } else {
             toast({
@@ -125,27 +125,15 @@ const Page = () => {
             });
         }
     }
-    const handleCreate = async (custId: any) => {
-        const url = `/api/cust/products?custId=${custId}`;
-        const response = await fetchWrapper(url);
-        if (response["success"]) {
-            setCreateState(response["data"]);
-        }
-    };
-    const handleCreateClose = async (reload = false) => {
-        setCreateState(undefined);
-        if (reload) {
-        //   await getInv(cust["custId"], 1);
-        //   await sendInvoice();
-          // setSelected(undefined);
-        }
-        
-      };
+    const handleNewInvoiceClose = () => {
+        setNewInvoiceState(undefined);
+    }
+
     return (
         <div>
             <div className="flex justify-between">
                 <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
-                <Button type="button" disabled={isLoading} onClick={() => handleAction("create")}>
+                <Button type="button" disabled={isLoading} onClick={() => handleAction("newInvoice")}>
                     Шинэ нэхэмжлэл
                 </Button>
             </div>
@@ -178,14 +166,10 @@ const Page = () => {
                     isLoading={isLoading}
                 />
             )}
-            {createState && (
-                <Create
-                    cust={cust}
-                    data={createState}
-                    handleCreateClose={handleCreateClose}
-                    banks={banks}
-                    isLoading={isLoading}
-                    handleCalculatedSuccess={() => { handleCreateClose(true) }}
+            {newInvoiceState && (
+                <NewInvoice
+                    custId={cust.custId}
+                    handleNewInvoiceClose={handleNewInvoiceClose}
                 />
             )}
         </div>

@@ -15,7 +15,7 @@ const PrePaid = (props:any) => {
   return (
     <div className="overflow-x-auto">
       <table className="table">
-        <caption className="!caption-top">Урьдчилсан төлбөрт</caption>
+        {/* <caption className="!caption-top">Урьдчилсан төлбөрт</caption> */}
         <thead className="narrow">
           <tr>
             <th>Үйлчилгээний дугаар</th>

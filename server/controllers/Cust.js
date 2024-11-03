@@ -99,11 +99,11 @@ exports.Products = async (req, res) => {
   const postpaidSubs = await findPostPaidSubs(token, custId);
   const postpaid = await getPostPaid(token, postpaidSubs);
   return res.json({
-    succes: true,
+    success: true,
     data: {
       prepaid: prepaid,
       postpaid: postpaid,
-      billAcntId: postpaidSubs ? postpaidSubs.billAcntId : null
+      // billAcntId: postpaidSubs ? postpaidSubs.billAcntId : null
     }
   });
 }

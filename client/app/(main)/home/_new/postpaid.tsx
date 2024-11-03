@@ -17,9 +17,9 @@ const PostPaid = ({ data, postpaidRow, getPostpaidInput }: any) => {
     }
   };
 
-  useEffect(()=>{
-    getPostpaidInput(selected, charge);
-  },[selected, charge])
+//   useEffect(()=>{
+//     getPostpaidInput(selected, charge);
+//   },[selected, charge])
 
   return (
     <div className="overflow-x-auto">
