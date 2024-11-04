@@ -18,8 +18,8 @@ const NewInvoice = (props: any) => {
     const [prepaidRows, setPrepaidRows] = useState([]);
     const [postpaidRows, setPostpaidRows] = useState({
         amount: 0,
-        month: undefined,
-        charge: "custom"
+        row: undefined,
+        charge: "endBalance"
     });
     const [others, setOthers] = useState();
 
@@ -50,23 +50,21 @@ const NewInvoice = (props: any) => {
         }));
         setPrepaidRows(temp);
       };
-    // const createPrepaidRows = (data:any) => {
-    //     const temp = [];
-    //     for(const row of data){
-    //         temp.push({
-    //             chargeOption: {},
-    //             info: {
-    //                 recharge:{
-    //                     numOfRecurring: 0,
-    //                     amount: 0
-    //                 },
-    //                 subsId: row.subs.subsId,
-    //                 userKey: row.subs.userId
-    //             }
-    //         });
-    //     }
-    //     console.log(temp);
-    // }
+    const updatePostpaidRows = (amount:any, row:any, charge:any) => {
+        if(charge =="custom" && amount){
+            amount = amount.replace(",", "");
+            amount = parseFloat(amount);
+        }
+        if(charge != "custom" && row){
+            amount = row[charge];
+        }
+        setPostpaidRows({
+            amount: amount,
+            row: row,
+            charge: charge
+        });
+        console.log(amount, row, charge);
+    }
     return (
         <Dialog open={props.custId} onOpenChange={props.handleNewInvoiceClose}>
             <DialogContent className="max-w-[90%] max-h-[90%] overflow-y-auto">
@@ -88,7 +86,7 @@ const NewInvoice = (props: any) => {
                             }
                         </TabsContent>
                         <TabsContent value="postpaid">{
-                             prods &&   <PostPaid data={prods.postpaid}/> }</TabsContent>
+                             prods &&   <PostPaid data={prods.postpaid} postpaidRows={postpaidRows} updatePostpaidRows={updatePostpaidRows}/>}</TabsContent>
                         <TabsContent value="other">Change your password here.</TabsContent>
                     </Tabs>
                 </div>

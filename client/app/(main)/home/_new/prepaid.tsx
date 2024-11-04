@@ -36,7 +36,7 @@ const PrePaid = (props:any) => {
               <td>{d["subs"]["prodName"]}</td>
               <td>{d["account"]["remains"]}</td>
               <td>
-                {formatDate(d["account"]["lifecycle"]["stateExpireAt"], true)}
+                {formatDate(d["account"]["lifecycle"]["accExpireAt"], true)}
               </td>
               <td>{d["recurring"]["monthlyFee"]}</td>
               <td>
