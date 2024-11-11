@@ -170,6 +170,7 @@ const Page = () => {
                 <NewInvoice
                     custId={cust.custId}
                     handleNewInvoiceClose={handleNewInvoiceClose}
+                    banks={banks}
                 />
             )}
         </div>

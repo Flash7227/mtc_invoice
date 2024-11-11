@@ -31,7 +31,7 @@ const PostPaid = ({ data, postpaidRows, updatePostpaidRows }: any) => {
 
   return (
     <div className="overflow-x-auto">
-      <hr className="pt-2"></hr>
+      <hr className="mt-2"></hr>
       <h5 className="py-2 text-muted-foreground text-sm">Дараа төлбөрт</h5>
       <RadioGroup defaultValue={charge} onValueChange={setCharge}>
         <div className="flex items-center space-x-2">

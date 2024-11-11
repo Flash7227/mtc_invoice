@@ -1,21 +1,22 @@
 "use client";
-import { useState, useEffect } from "react";
-import useFetchWrapper from "@/utils/fetchWrapper";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import InfoForm from "./_new/infoForm";
+import { useState, useEffect } from "react";
+import useFetchWrapper from "@/utils/fetchWrapper";
 import PrePaid from "./_new/prepaid";
-import PostPaid from "./_new/postpaid";
 import Other from "./_new/other";
-import { Button } from "@/components/ui/button";
+import PostPaid from "./_new/postpaid";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const NewInvoice = (props: any) => {
   const { fetchWrapper } = useFetchWrapper();
+  const [billType, setBillType] = useState<any>(["prepaid"]);
   const [prods, setProds] = useState<any>();
   const [prepaidRows, setPrepaidRows] = useState([]);
   const [postpaidRows, setPostpaidRows] = useState({
@@ -29,7 +30,7 @@ const NewInvoice = (props: any) => {
     price: 0,
     item: "",
     quantity: 0,
-    total: 0
+    total: 0,
   });
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const NewInvoice = (props: any) => {
     getProducts();
     getOtherList();
   }, []);
+
   const createPrepaidRows = (data: any) => {
     const temp = data.map((obj: any) => ({
       ...obj,
@@ -75,56 +77,68 @@ const NewInvoice = (props: any) => {
       charge: charge,
     });
   };
-  const updateOtherRows = (values:any)=>{
+  const updateOtherRows = (values: any) => {
     const name = values.target.name;
     const value = values.target.value;
-    if(name == 'product'){
+    if (name == "product") {
       console.log(other[value]["amount"] + other[value]["vatAmt"]);
-      setOtherRows({...otherRows, product: value, item: other[value], quantity: 0, total: other[value]["amount"] + other[value]["vatAmt"], price: other[value]["amount"] + other[value]["vatAmt"]});
-    }else if(name == "price"){
-      setOtherRows({...otherRows, total: value * otherRows.quantity, price: value});
-    }else if(name == "quantity"){
-      setOtherRows({...otherRows, quantity: value, total: value * otherRows.price});
+      setOtherRows({
+        ...otherRows,
+        product: value,
+        item: other[value],
+        quantity: 0,
+        total: other[value]["amount"] + other[value]["vatAmt"],
+        price: other[value]["amount"] + other[value]["vatAmt"],
+      });
+    } else if (name == "price") {
+      setOtherRows({
+        ...otherRows,
+        total: value * otherRows.quantity,
+        price: value,
+      });
+    } else if (name == "quantity") {
+      setOtherRows({
+        ...otherRows,
+        quantity: value,
+        total: value * otherRows.price,
+      });
     }
-  }
+  };
   return (
-    <Dialog open={props.custId} onOpenChange={props.handleNewInvoiceClose}>
-      <DialogContent className="max-w-[90%] max-h-[90%] overflow-y-auto">
+    <Dialog
+      open={props.custId ? true : false}
+      onOpenChange={props.handleNewInvoiceClose}
+    >
+      <DialogContent className="max-w-[90%] max-h-[90%] overflow-auto">
         <DialogHeader>
-          <DialogTitle>{props.custId} - Шинэ нэхэмжлэл</DialogTitle>
+          <DialogTitle>{props.custId} - шинэ нэхэмжлэл</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
+        <InfoForm
+          banks={props.banks}
+          setBillType={setBillType}
+          billType={billType}
+        />
         <div>
-          <Tabs defaultValue="prepaid">
-            <div className="flex justify-between">
-              <TabsList>
-                <TabsTrigger value="prepaid">Урьдчилсан төлбөрт</TabsTrigger>
-                <TabsTrigger value="postpaid">Дараа төлбөрт</TabsTrigger>
-                <TabsTrigger value="other">Бусад төлбөр</TabsTrigger>
-              </TabsList>
-              <div>
-                <Button>Тооцох</Button>
-              </div>
-            </div>
+          {prods && billType.includes("prepaid") && (
+            <PrePaid data={prepaidRows} setPrepaidRows={setPrepaidRows} />
+          )}
 
-            <TabsContent value="prepaid">
-              {prods && (
-                <PrePaid data={prepaidRows} setPrepaidRows={setPrepaidRows} />
-              )}
-            </TabsContent>
-            <TabsContent value="postpaid">
-              {prods && (
-                <PostPaid
-                  data={prods.postpaid}
-                  postpaidRows={postpaidRows}
-                  updatePostpaidRows={updatePostpaidRows}
-                />
-              )}
-            </TabsContent>
-            <TabsContent value="other">
-              <Other data={other} otherRows={otherRows} updateOtherRows={updateOtherRows}/>
-            </TabsContent>
-          </Tabs>
+          {prods && billType.includes("postpaid") && (
+            <PostPaid
+              data={prods.postpaid}
+              postpaidRows={postpaidRows}
+              updatePostpaidRows={updatePostpaidRows}
+            />
+          )}
+
+          {billType.includes("other") && (
+            <Other
+              data={other}
+              otherRows={otherRows}
+              updateOtherRows={updateOtherRows}
+            />
+          )}
         </div>
       </DialogContent>
     </Dialog>

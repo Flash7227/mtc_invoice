@@ -51,6 +51,8 @@ const Other = (props: any) => {
 
   return (
     <div>
+       <hr className="mt-2"></hr>
+       <h5 className="py-2 text-muted-foreground text-sm">Бусад төлбөр</h5>
       {props.data && (
         <Form {...form}>
           <form

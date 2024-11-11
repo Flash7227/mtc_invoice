@@ -14,6 +14,7 @@ const PrePaid = (props:any) => {
   }
   return (
     <div className="overflow-x-auto">
+       <h5 className="py-2 text-muted-foreground text-sm">Урьдчилсан төлбөрт</h5>
       <table className="table">
         {/* <caption className="!caption-top">Урьдчилсан төлбөрт</caption> */}
         <thead className="narrow">
