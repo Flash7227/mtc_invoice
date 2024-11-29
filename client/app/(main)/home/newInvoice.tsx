@@ -12,7 +12,6 @@ import useFetchWrapper from "@/utils/fetchWrapper";
 import PrePaid from "./_new/prepaid";
 import Other from "./_new/other";
 import PostPaid from "./_new/postpaid";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const NewInvoice = (props: any) => {
   const { fetchWrapper } = useFetchWrapper();
@@ -104,6 +103,55 @@ const NewInvoice = (props: any) => {
       });
     }
   };
+  const handleCalculate = async (values:any) => {
+    const url = "/api/invoice/calculate";
+    const options = {
+      method:"POST",
+      body: JSON.stringify({
+        prepaid: values['bill_type'].includes('prepaid') ? getPrepaidInput(): null,
+        postpaid: values['bill_type'].includes('postpaid') ? postpaidRows: null,
+        other: values['bill_type'].includes('other') ? otherRows: null
+      })
+    };
+
+    const response = await fetchWrapper(url,options);
+    console.log(response);
+  }
+
+  function getPrepaidInput() {
+    let temp = [];
+    const changedRows = prepaidRows.filter((d:any)=>parseInt(d['bulkmonth']) > 0 || parseInt(d['bulkremains']) > 0);
+    for(const item of changedRows){
+      let each = item as any;
+      const total = (parseInt(each['bulkmonth']) * each['recurring']['monthlyFee']) + parseInt(each['bulkremains'].replace(",", ""));
+      temp.push({
+        chargeOption:{},
+        info:{
+          recharge:{
+            amount: total,
+            numOfRecurring: parseInt(each['bulkmonth'])
+          },
+          userKey: each['subs']['userId'],
+          subsId: each['subs']['subsId']
+        },
+        additional:{
+          billType: 'PPD',
+          amount: parseInt(each['bulkremains'].replace(",", "")),
+          numOfRecurring: parseInt(each['bulkmonth']),
+          userId: each['subs']['userId'],
+          name: each['subs']['userId'],
+          subsId: each['subs']['subsId'],
+          svcDomain: each['subs']['svcDomain'],
+          subDomain: each['subs']['subDomain'],
+          fee: each['recurring']['monthlyFee'],
+          discount : 0,
+          chargedMonth: null,
+          total:total
+        }
+      });
+    }
+    return temp;
+  }
   return (
     <Dialog
       open={props.custId ? true : false}
@@ -118,6 +166,7 @@ const NewInvoice = (props: any) => {
           banks={props.banks}
           setBillType={setBillType}
           billType={billType}
+          handleCalculate={handleCalculate}
         />
         <div>
           {prods && billType.includes("prepaid") && (

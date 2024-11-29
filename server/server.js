@@ -40,14 +40,14 @@ app.get('/', (req, res) => {
 const Auth = require("./routes/Auth");
 const Cust = require("./routes/Cust");
 const Base = require("./routes/Base");
-// const Invoices = require("./routes/invoices");
+const Invoice = require("./routes/Invoice");
 const Payment = require("./routes/Payment");
 // const Subs = require("./routes/subs")
 
 app.use("/auth", Auth);
 app.use("/cust", Cust);
 app.use("/base", Base);
-// app.use("/invoices", Invoices);
+app.use("/invoice", Invoice);
 // app.use("/subs", Subs);
 app.use("/payment", Payment);
 
